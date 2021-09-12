@@ -2,13 +2,13 @@ package com.jubin.springboot.reactive.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.data.annotation.Id;
 
 public class Cart {
 
-	@Id
-	private String id;
+	private @Id String id;
 	private List<CartItem> cartItems;
 
 	private Cart() {}
@@ -36,5 +36,25 @@ public class Cart {
 
 	public void setCartItems(List<CartItem> cartItems) {
 		this.cartItems = cartItems;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Cart cart = (Cart) o;
+		return Objects.equals(id, cart.id) && Objects.equals(cartItems, cart.cartItems);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, cartItems);
+	}
+
+	@Override
+	public String toString() {
+		return "Cart{" + "id='" + id + '\'' + ", cartItems=" + cartItems + '}';
 	}
 }
