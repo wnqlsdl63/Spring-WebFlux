@@ -52,6 +52,20 @@
 			<artifactId>reactor-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- devtools -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<!-- only debug mode excute -->
+			<optional>true</optional>
+		</dependency>
+		<!--BlockHound-->
+		<dependency>
+			<groupId>io.projectreactor.tools</groupId>
+			<artifactId>blockhound</artifactId>
+			<version>1.0.3.RELEASE</version>
+		</dependency>
 	</dependencies>
 
 	<build>
