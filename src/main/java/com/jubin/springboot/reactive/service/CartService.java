@@ -1,22 +1,29 @@
 package com.jubin.springboot.reactive.service;
 
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import com.jubin.springboot.reactive.entity.Cart;
 import com.jubin.springboot.reactive.entity.CartItem;
+import com.jubin.springboot.reactive.entity.Item;
 import com.jubin.springboot.reactive.repository.CartRepository;
+import com.jubin.springboot.reactive.repository.ItemByExampleRepository;
 import com.jubin.springboot.reactive.repository.ItemRepository;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
 public class CartService {
 	private ItemRepository itemRepository;
+	private ItemByExampleRepository exampleRepository;
 	private CartRepository cartRepository;
 
 	public CartService(ItemRepository itemRepository,
-		CartRepository cartRepository) {
+		ItemByExampleRepository exampleRepository, CartRepository cartRepository) {
 		this.itemRepository = itemRepository;
+		this.exampleRepository = exampleRepository;
 		this.cartRepository = cartRepository;
 	}
 
@@ -37,5 +44,18 @@ public class CartService {
 						.map(cartItem -> cart);
 				}))
 			.flatMap(this.cartRepository::save); // <6>
+	}
+
+	public Flux<Item> searchByExample(String name, String description, boolean useAnd) {
+		Item item = new Item(name, description, 0.0);
+
+		ExampleMatcher matcher = (useAnd ? ExampleMatcher.matchingAll() : ExampleMatcher.matchingAny())
+			.withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING) // like searching
+			.withIgnoreCase()
+			.withIgnorePaths("price");	// double is not null, ignore 'price' field
+
+		Example<Item> probe = Example.of(item, matcher);
+
+		return exampleRepository.findAll(probe); // query excute
 	}
 }
