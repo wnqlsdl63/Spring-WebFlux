@@ -1,17 +1,12 @@
 package com.jubin.springboot.reactive.service;
 
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import com.jubin.springboot.reactive.entity.Cart;
 import com.jubin.springboot.reactive.entity.CartItem;
-import com.jubin.springboot.reactive.entity.Item;
 import com.jubin.springboot.reactive.repository.CartRepository;
-import com.jubin.springboot.reactive.repository.ItemByExampleRepository;
 import com.jubin.springboot.reactive.repository.ItemRepository;
 
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
